@@ -367,7 +367,7 @@ namespace Lab3
             string line;
             try
             {
-                using (StreamReader file = new StreamReader("LessMusic.csv"))
+                using (StreamReader file = new StreamReader(@"..\..\LessMusic.csv"))
                 {
                     while ((line = file.ReadLine()) != null)
                     {
