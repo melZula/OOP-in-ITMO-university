@@ -121,7 +121,7 @@ namespace Lab3
         }
         public Genre add(string genre)
         {
-            Genre gr = SearchEngine.BFSsearch(genre, rootGenre);
+            Genre gr = SearchEngine.BFSsearch(genre, rootGenre, show:false);
             if (gr == null)
             {
                 if (genre.Contains('/'))
@@ -159,7 +159,7 @@ namespace Lab3
         public List<Track> buffer = new List<Track>(20);
         private List<Showable> cache = new List<Showable>(20);
         public SearchEngine(Catalog c) { ct = c; }
-        public static Genre BFSsearch(string Name, Genre rootGenre)
+        public static Genre BFSsearch(string Name, Genre rootGenre, bool show)
         {
             HashSet<string> used = new HashSet<string>(20);
             Queue<Genre> q = new Queue<Genre>();
@@ -169,9 +169,10 @@ namespace Lab3
                 Genre u = q.Dequeue();
                 foreach (Genre i in u.ChildGenres)
                 {
-                    if (i.Name == Name) { return i; }
                     if (!used.Contains(i.Name))
                     {
+                        if (show) { i.show(); }
+                        else { if (i.Name == Name) { return i; } }
                         used.Add(i.Name);
                         q.Enqueue(i);
                     }
@@ -181,7 +182,7 @@ namespace Lab3
         }
         public void SearchInteractive()
         {
-            Console.WriteLine("Searching engine. Search tracks by attribute. Add to buffer fo making collection. To show buffer print '*' ");
+            Console.WriteLine("Searching engine. \nSearch tracks by attribute. Add to buffer fo making collection. To show buffer print '*' ");
             Console.Write("SEARCH BY :");
             string attribute = Console.ReadLine();
             int counter = 1;
@@ -190,7 +191,7 @@ namespace Lab3
                 foreach (Track tr in buffer) { Console.WriteLine("{0}: {1}", counter, tr.Name); counter++; }
                 return;
             }
-            Console.Write(" NAME: ");
+            Console.Write(" VALUE: ");
             string value = Console.ReadLine();
             switch (attribute.ToLower())
             {
@@ -214,6 +215,9 @@ namespace Lab3
                     break;
                 case "year":
                     searchByYear(value);
+                    break;
+                case "show":
+                    show(value);
                     break;
             }
             counter = 1;
@@ -263,7 +267,8 @@ namespace Lab3
         {
             foreach (KeyValuePair<string, Track> tr in ct.tracks)
             {
-                if (tr.Value.album.genre.Name.ToLower().Contains(n.ToLower())) { cache.Add(tr.Value); }
+                if (tr.Value.album.genre.Name.ToLower().Contains(n.ToLower()) || tr.Value.album.genre.ParentGenre.Name.ToLower().Contains(n.ToLower()))
+                    { cache.Add(tr.Value); }
             }
         }
         public void searchByYear(string n)
@@ -282,6 +287,30 @@ namespace Lab3
             foreach (KeyValuePair<string, Collection> cl in ct.collections)
             {
                 if (cl.Value.Name.ToLower().Contains(n.ToLower())) { cache.AddRange(cl.Value.list); }
+            }
+        }
+        public void show(string n)
+        {
+            switch (n.ToLower())
+            {
+                case "author":
+                case "artist":
+                case "authors":
+                case "artists":
+                    foreach (KeyValuePair<string, Author> athr in ct.authors) { athr.Value.show(); }
+                    break;
+                case "album":
+                case "albums":
+                    foreach (KeyValuePair<string, Album> al in ct.albums) { al.Value.show(); }
+                    break;
+                case "genre":
+                case "genres":
+                    BFSsearch(null, ct.rootGenre, show: true);
+                    break;
+                case "collections":
+                case "collection":
+                    foreach (KeyValuePair<string, Collection> cl in ct.collections) { cl.Value.show(); }
+                    break;
             }
         }
         public void makeCollectionFromBuffer()
@@ -305,7 +334,7 @@ namespace Lab3
         }
         static void Menu()
         {
-            Console.WriteLine("MUSIC CATALOG");
+            Console.WriteLine("-----MUSIC CATALOG-----");
 
             int mode = 420;
             while (mode != 9)
