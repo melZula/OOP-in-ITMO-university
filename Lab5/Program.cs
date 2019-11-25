@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Lab5
 {
@@ -19,7 +21,11 @@ namespace Lab5
                 if (!writeOnly)
                 {
                     SQLiteDataReader reader = command.ExecuteReader();
-                    while (reader.Read()) Console.WriteLine(reader["name"]);
+                    while (reader.Read())
+                    {
+                        foreach (object s in reader) Console.Write(JsonConvert.SerializeObject(s));
+                        Console.WriteLine("\n");
+                    }
                 }
                 Conn.Close();
             }
