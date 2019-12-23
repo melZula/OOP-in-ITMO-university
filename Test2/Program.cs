@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Test2
 {
-    class Point
+    public class Point
     {
         public double x { get; set; }
         public double y { get; set; }
@@ -17,7 +17,7 @@ namespace Test2
             Console.WriteLine("({0}, {1})", x, y);
         }
     }
-    class Vector
+    public class Vector
     {
         public double x;
         public double y;
@@ -30,21 +30,30 @@ namespace Test2
             get { return Math.Sqrt(Math.Pow(this.x, 2) + Math.Pow(this.y, 2)); } 
         }
     }
-    class Square
+    public class Square
     {
-        private List<Point> points = new List<Point>(4);
+        public List<Point> points = new List<Point>(4);
         public Square(Point a, Point b, Point c, Point d)
         {
-            points.Add(a); points.Add(b);
-            points.Add(c); points.Add(d);
+            if  (Point.length(a, b) == Point.length(b,c) && Point.length(b,c) == Point.length(c,d) && Point.length(c,d) == Point.length(d, a))
+            {
+                points.Add(a); points.Add(b);
+                points.Add(c); points.Add(d);
+            }
+            else { Console.WriteLine("NOT A SQUARE"); }
+          
         }
-        private double square()
+        public double square()
         {
             return Math.Pow(Point.length(points[0], points[1]), 2);
         }
         private double diametr()
         {
             return Point.length(points[0], points[2]);
+        }
+        private double perimetr()
+        {
+            return Point.length(points[0], points[1]) * 4;
         }
         public void shift(Vector v)
         {
@@ -55,15 +64,19 @@ namespace Test2
         }
         public void show()
         {
-            foreach (Point p in points)
+            if (points.Count == 4)
             {
-                p.show();
+                foreach (Point p in points)
+                {
+                    p.show();
+                }
+                Console.WriteLine("Square = {0}", this.square());
+                Console.WriteLine("Diametr = {0}", this.diametr());
+                Console.WriteLine("Perimetr = {0}", this.perimetr());
             }
-            Console.WriteLine("Square = {0}", this.square());
-            Console.WriteLine("Diametr = {0}", this.diametr());
         }
     }
-    class Program
+    public class Program
     {
         static void test1()
         {
@@ -92,9 +105,17 @@ namespace Test2
             a.shift(v2);
             a.show();
         }
+        static void test4()
+        {
+            Square a = new Square(new Point(0, 1), new Point(-4, 5), new Point(-9, 1), new Point(-5, -4));
+            a.show();
+            Vector v = new Vector(4, -5);
+            a.shift(v);
+            a.show();
+        }
         static void Main(string[] args)
         {
-            test3();
+            test2();
             Console.ReadKey();
         }
     }
