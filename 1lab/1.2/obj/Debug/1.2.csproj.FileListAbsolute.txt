@@ -12,3 +12,9 @@ C:\Users\zula0\OneDrive - ITMO UNIVERSITY\итмо\ООП\1.2\obj\Debug\1.2.cspr
 C:\Users\zula0\OneDrive - ITMO UNIVERSITY\итмо\ООП\1.2\obj\Debug\1.2.csproj.CoreCompileInputs.cache
 C:\Users\zula0\OneDrive - ITMO UNIVERSITY\итмо\ООП\1.2\obj\Debug\1.2.exe
 C:\Users\zula0\OneDrive - ITMO UNIVERSITY\итмо\ООП\1.2\obj\Debug\1.2.pdb
+C:\Users\Zula\Documents\GitHub\OOP-in-ITMO-university\1lab\1.2\bin\Debug\1.2.exe.config
+C:\Users\Zula\Documents\GitHub\OOP-in-ITMO-university\1lab\1.2\bin\Debug\1.2.exe
+C:\Users\Zula\Documents\GitHub\OOP-in-ITMO-university\1lab\1.2\bin\Debug\1.2.pdb
+C:\Users\Zula\Documents\GitHub\OOP-in-ITMO-university\1lab\1.2\obj\Debug\1.2.csprojAssemblyReference.cache
+C:\Users\Zula\Documents\GitHub\OOP-in-ITMO-university\1lab\1.2\obj\Debug\1.2.exe
+C:\Users\Zula\Documents\GitHub\OOP-in-ITMO-university\1lab\1.2\obj\Debug\1.2.pdb
